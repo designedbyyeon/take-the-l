@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L을 가져가</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="화면의 모든 영문 L을 폰트·크기·색 그대로 수집하는 북마클릿">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<!--share--><meta property="og:type" content="website">
+<meta property="og:url" content="https://designedbyyeon.github.io/take-the-l/">
+<link rel="canonical" href="https://designedbyyeon.github.io/take-the-l/">
+<meta property="og:title" content="L을 가져가">
+<meta property="og:description" content="전부 무료입니다…… 화면 속 영문 L을 하나씩 찰칵 찍어 손바닥 위에 올려 드려요.">
+<meta property="og:image" content="https://designedbyyeon.github.io/take-the-l/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><!--/share-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  /* 레이아웃: source/design.ai 시안 그대로의 싸구려 전단지. 흰 바탕, 노란 입체 로고, 빨간 알약과 별 터짐, 손바닥 위 L 상자. 일부러 밝은 한 가지 세계관으로 고정 */
+  :root {
+    --paper: #ffffff;
+    --ink: #000000;
+    --yellow: #ffec00;
+    --red: #e80000;
+    --gray: #f2f2f2;
+    --muted: #555555;
+    --display: "Black Han Sans", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    --body: "Noto Sans KR", -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", sans-serif;
+    --serif: "Times New Roman", Times, Georgia, serif;
+    --line: 2px;          /* 모든 선 두께: 테두리, 글자 외곽선, 로고 외곽선 */
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 500 16px/1.65 var(--body); overflow-x: hidden; word-break: keep-all; overflow-wrap: anywhere; }
+  .wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+  /* 히어로: 시안의 포스터 */
+  .poster { padding-block: clamp(40px, 9vw, 96px) 0; display: flex; flex-direction: column; align-items: center; gap: clamp(14px, 3vw, 24px); }
+  .poster .logo { width: min(720px, 100%); height: auto; }
+  .logo path[stroke] { stroke-width: var(--line); vector-effect: non-scaling-stroke; }
+  .pill { display: inline-block; background: var(--red); color: #fff; font-weight: 700; font-size: clamp(14px, 2.4vw, 18px); padding: .5em 2.2em; border-radius: 50%; letter-spacing: -.01em; }
+  .hand-stage { position: relative; width: min(900px, 112%); align-self: flex-end; margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px))); margin-top: clamp(90px, 22vw, 210px); }
+  .hand-stage img { display: block; width: 100%; height: auto; }
+  .lbox { position: absolute; left: 19.6%; bottom: 89.6%; width: 22.2%; aspect-ratio: 1 / 1; display: grid; place-items: center; background: #fff; border: var(--line) solid var(--ink); font: 400 clamp(60px, 15vw, 150px)/1 var(--serif); transform-origin: 50% 100%; animation: bob 2.8s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-6px) rotate(-1.5deg); } }
+  .burst { position: absolute; left: 21%; top: 45%; width: 34%; aspect-ratio: 2 / 1; display: grid; place-items: center; }
+  .burst svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: var(--red); }
+  .burst span { position: relative; color: #fff; font-weight: 900; font-size: clamp(12px, 2.4vw, 22px); rotate: -19deg; white-space: nowrap; }
+  .lede { margin: 26px auto 0; max-width: 32em; text-align: center; font-size: clamp(16px, 2.6vw, 19px); font-weight: 700; text-wrap: balance; }
+  .lede em { font-style: normal; background: var(--yellow); padding: 0 .2em; }
+
+  /* 섹션 머리: 로고처럼 노란 입체 글씨 */
+  section { padding-block: clamp(56px, 10vw, 96px) 0; }
+  .head { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; margin-bottom: 28px; }
+  h2 { margin: 0; font: 400 clamp(40px, 9vw, 72px)/1 var(--display); color: var(--yellow); -webkit-text-stroke: var(--line) var(--ink); text-shadow: 0 7px 0 var(--ink); letter-spacing: -.01em; }
+  .head .pill { font-size: 14px; }
+
+  .tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
+  @media (max-width: 600px) { .tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tab { appearance: none; cursor: pointer; font: 700 15px/1.2 var(--body); color: var(--ink); background: #fff; border: var(--line) solid var(--ink); padding: 14px 8px; }
+  .tab[aria-selected="true"] { background: var(--yellow); box-shadow: 0 5px 0 var(--ink); transform: translateY(-3px); }
+  .tab:focus-visible, .btn:focus-visible, .bm:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+  .pane { display: none; border: var(--line) solid var(--ink); padding: clamp(18px, 4vw, 30px); }
+  .pane.on { display: block; }
+  .pane ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 16px; }
+  .pane li { counter-increment: s; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .pane li::before { content: counter(s); display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--red); color: #fff; font: 900 16px/1 var(--body); }
+  .pane .note { margin: 20px 0 0; padding: 12px 16px; background: var(--gray); font-size: 14px; color: var(--muted); }
+  kbd, code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .86em; border: var(--line) solid var(--ink); padding: 0 6px; background: #fff; }
+  .bm { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; padding: 10px 20px; background: var(--yellow); color: var(--ink); font: 400 20px/1 var(--display); text-decoration: none; border: var(--line) dashed var(--ink); cursor: grab; }
+  .code-box { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .code-box textarea { flex: 1 1 240px; min-width: 0; height: 64px; resize: vertical; font: 12px/1.4 ui-monospace, Menlo, monospace; color: var(--muted); background: var(--gray); border: var(--line) solid var(--ink); padding: 8px; }
+  .btn { appearance: none; cursor: pointer; font: 900 16px/1 var(--body); padding: 14px 22px; border-radius: 999px; border: var(--line) solid var(--ink); background: var(--yellow); color: var(--ink); box-shadow: 0 5px 0 var(--ink); }
+  .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+
+  .faq dl { margin: 0; display: grid; gap: 0; border-top: var(--line) solid var(--ink); }
+  .faq .q { padding: 18px 4px; border-bottom: var(--line) solid var(--ink); display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 10px; }
+  .faq .q::before { content: "Q."; grid-row: span 2; font: 400 30px/1 var(--display); color: var(--red); }
+  .faq dt { font-weight: 900; font-size: 17px; }
+  .faq dd { margin: 4px 0 0; color: var(--muted); }
+
+  footer { padding-block: 70px 60px; text-align: center; color: var(--muted); font-size: 14px; }
+  footer .pill { font-size: 13px; margin-bottom: 14px; }
+
+  .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) translateY(140px); background: var(--red); color: #fff; padding: 12px 26px; border-radius: 50%; font: 700 15px/1 var(--body); transition: transform .3s cubic-bezier(.3,1.5,.5,1); z-index: 10; white-space: nowrap; }
+  .toast.on { transform: translateX(-50%) translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .lbox { animation: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="poster">
+    <!--logo--><svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="156 192 784 180" role="img" aria-label="L을 가져가"><path fill="#000" stroke-width="1" stroke="#000" d="M -0 -0 L -0 31.75 L -15.19 31.75 L -15.19 73.87 L -54.22 73.87 L -54.22 -77.7 L -15.19 -77.7 L -15.19 -0 Z M -0 -0 " transform="matrix(1, 0, 0, -1, 616.21, 285.87)"/> <path fill="#000" stroke-width="1" stroke="#000" d="M 0 0 L -35.99 0 L -35.99 -32.14 L 12.38 -32.14 L 12.38 -37.81 C 12.38 -53.26 6.22 -63.67 -0.47 -69.5 C -9.23 -77.12 -20.8 -79.42 -39.78 -79.42 L -39.78 -132.54 C -6.79 -132.97 16.94 -123.57 34.63 -98.53 C 46.85 -81.26 49.32 -59.76 49.32 -29.45 L 49.32 0 Z M 0 0 " transform="matrix(1, 0, 0, -1, 502.33, 214.26)"/> <path fill="#000" stroke-width="1" stroke="#000" d="M -0 0 L -15.2 0 L -15.2 42.13 L -54.22 42.13 L -54.22 -109.44 L -15.2 -109.44 L -15.2 -31.75 L -0 -31.75 Z M -0 0 " transform="matrix(1, 0, 0, -1, 932.27, 254.13)"/> <path fill="#000" stroke-width="1" stroke="#000" d="M -0 0 L -30.4 0 L -30.4 -32.14 L 12.38 -32.14 L 12.38 -37.81 C 12.38 -53.26 6.21 -63.67 -0.47 -69.5 C -9.22 -77.12 -20.8 -79.42 -39.78 -79.42 L -39.78 -132.54 C -6.79 -132.97 16.94 -123.57 34.64 -98.53 C 46.84 -81.26 49.32 -59.76 49.32 -29.45 L 49.32 0 Z M -0 0 " transform="matrix(1, 0, 0, -1, 818.39, 214.26)"/> <path fill="#000" stroke-width="1" stroke="#000" d="M 0 0 L -15.57 0 L -15.57 -39.42 L 0 -39.42 L 0 -54.99 C -20.21 -56.2 -31.68 -48.16 -35.77 -35.58 C -39.29 -24.78 -34.83 -14.05 -24.66 -8.68 L -24.66 20.16 L -109.55 20.16 L -109.55 -11.98 L -72.57 -11.98 C -76.39 -34.28 -85.02 -57.8 -113.15 -57.01 L -113.15 -112.4 C -85.18 -114.42 -62.25 -99.41 -47.29 -73.48 C -42.2 -90.98 -25.04 -103.53 0 -104.6 L 0 -129.15 L 39.02 -129.15 L 39.02 22.42 L 0 22.42 Z M 0 0 " transform="matrix(1, 0, 0, -1, 727.96, 234.42)"/> <path fill="#000" d="M 209.73 327.66 L 210.29 214.26 L 162.16 214.26 L 161.44 363.95 L 284.95 363.95 L 283.82 309.98 C 264.59 320.26 237.25 326.7 209.73 327.66 "/> <path fill="none" stroke-width="1" stroke="#000" d="M 0 -0 L 0.56 113.4 L -47.57 113.4 L -48.29 -36.3 L 75.22 -36.3 L 74.09 17.67 C 54.86 7.4 27.52 0.96 0 -0 Z M 0 -0 " transform="matrix(1, 0, 0, -1, 209.73, 327.65)"/> <path fill="#000" stroke-width="1" stroke="#000" d="M 0 -0 C 17.85 4.45 40.84 7.34 62.73 9.27 L 4.34 -9.37 L 4.34 -24.24 C 4.34 -37.45 10.11 -48.16 28.26 -48.16 L 141.59 -48.16 L 141.59 1.42 C 121.62 -7.55 93.62 -14.91 66.82 -17.6 L 146.71 12.02 L 146.71 42.05 L 0 42.05 Z M 0 -0 " transform="matrix(1, 0, 0, -1, 303.06, 317.4)"/> <path fill="#000" d="M 376.01 235.46 C 386.54 235.46 398.46 236.2 398.46 239.86 C 398.46 243.52 386.54 244.25 376.01 244.25 C 365.48 244.25 353.55 243.52 353.55 239.86 C 353.55 236.2 365.48 235.46 376.01 235.46 M 376.01 269.71 C 405.49 269.71 438.85 264.7 438.85 239.86 C 438.85 215.01 405.49 210.01 376.01 210.01 C 346.53 210.01 313.17 215.01 313.17 239.86 C 313.17 264.7 346.53 269.71 376.01 269.71 "/> <path fill="none" stroke-width="1" stroke="#000" d="M 0 -0 C 10.53 -0 22.45 -0.74 22.45 -4.4 C 22.45 -8.06 10.53 -8.79 0 -8.79 C -10.53 -8.79 -22.46 -8.06 -22.46 -4.4 C -22.46 -0.74 -10.53 -0 0 -0 Z M 0 -34.25 C 29.48 -34.25 62.84 -29.24 62.84 -4.4 C 62.84 20.45 29.48 25.45 0 25.45 C -29.48 25.45 -62.84 20.45 -62.84 -4.4 C -62.84 -29.24 -29.48 -34.25 0 -34.25 Z M 0 -34.25 " transform="matrix(1, 0, 0, -1, 376.01, 235.46)"/> <path fill="rgb(100%, 92.55%, 0%)" stroke-width="1" stroke="#000" d="M -0 0 L -0 31.75 L -15.19 31.75 L -15.19 73.88 L -54.22 73.88 L -54.22 -77.69 L -15.19 -77.69 L -15.19 0 Z M -0 0 " transform="matrix(1, 0, 0, -1, 616.21, 274.1)"/> <path fill="rgb(100%, 92.55%, 0%)" stroke-width="1" stroke="#000" d="M 0 -0 L -35.99 -0 L -35.99 -32.13 L 12.38 -32.13 L 12.38 -37.81 C 12.38 -53.26 6.22 -63.68 -0.47 -69.5 C -9.23 -77.12 -20.8 -79.42 -39.78 -79.42 L -39.78 -132.54 C -6.79 -132.97 16.94 -123.57 34.63 -98.53 C 46.85 -81.26 49.32 -59.76 49.32 -29.45 L 49.32 -0 Z M 0 -0 " transform="matrix(1, 0, 0, -1, 502.33, 202.49)"/> <path fill="rgb(100%, 92.55%, 0%)" stroke-width="1" stroke="#000" d="M -0 -0 L -15.2 -0 L -15.2 42.12 L -54.22 42.12 L -54.22 -109.44 L -15.2 -109.44 L -15.2 -31.75 L -0 -31.75 Z M -0 -0 " transform="matrix(1, 0, 0, -1, 932.27, 242.35)"/> <path fill="rgb(100%, 92.55%, 0%)" stroke-width="1" stroke="#000" d="M -0 -0 L -30.4 -0 L -30.4 -32.13 L 12.38 -32.13 L 12.38 -37.81 C 12.38 -53.26 6.21 -63.68 -0.47 -69.5 C -9.22 -77.12 -20.8 -79.42 -39.78 -79.42 L -39.78 -132.54 C -6.79 -132.97 16.94 -123.57 34.64 -98.53 C 46.84 -81.26 49.32 -59.76 49.32 -29.45 L 49.32 -0 Z M -0 -0 " transform="matrix(1, 0, 0, -1, 818.39, 202.49)"/> <path fill="rgb(100%, 92.55%, 0%)" stroke-width="1" stroke="#000" d="M 0 -0 L -15.57 -0 L -15.57 -39.42 L 0 -39.42 L 0 -55 C -20.21 -56.2 -31.68 -48.16 -35.77 -35.59 C -39.29 -24.78 -34.83 -14.05 -24.66 -8.68 L -24.66 20.16 L -109.55 20.16 L -109.55 -11.98 L -72.57 -11.98 C -76.39 -34.28 -85.02 -57.79 -113.15 -57 L -113.15 -112.4 C -85.18 -114.43 -62.25 -99.41 -47.29 -73.48 C -42.2 -90.97 -25.04 -103.54 0 -104.6 L 0 -129.15 L 39.02 -129.15 L 39.02 22.41 L 0 22.41 Z M 0 -0 " transform="matrix(1, 0, 0, -1, 727.96, 222.64)"/> <path fill="rgb(100%, 92.55%, 0%)" d="M 209.73 315.88 L 210.29 202.49 L 162.16 202.49 L 161.44 352.18 L 284.95 352.18 L 283.82 298.21 C 264.59 308.49 237.25 314.93 209.73 315.88 "/> <path fill="none" stroke-width="1" stroke="#000" d="M 0 0 L 0.56 113.39 L -47.57 113.39 L -48.29 -36.3 L 75.22 -36.3 L 74.09 17.67 C 54.86 7.39 27.52 0.96 0 0 Z M 0 0 " transform="matrix(1, 0, 0, -1, 209.73, 315.88)"/> <path fill="rgb(100%, 92.55%, 0%)" stroke-width="1" stroke="#000" d="M 0 0 C 17.85 4.45 40.84 7.34 62.73 9.27 L 4.34 -9.37 L 4.34 -24.24 C 4.34 -37.45 10.11 -48.16 28.26 -48.16 L 141.59 -48.16 L 141.59 1.42 C 121.62 -7.55 93.62 -14.91 66.82 -17.6 L 146.71 12.02 L 146.71 42.05 L 0 42.05 Z M 0 0 " transform="matrix(1, 0, 0, -1, 303.06, 305.63)"/> <path fill="rgb(100%, 92.55%, 0%)" d="M 376.01 223.69 C 386.54 223.69 398.46 224.43 398.46 228.09 C 398.46 231.75 386.54 232.48 376.01 232.48 C 365.48 232.48 353.55 231.75 353.55 228.09 C 353.55 224.43 365.48 223.69 376.01 223.69 M 376.01 257.93 C 405.49 257.93 438.85 252.93 438.85 228.09 C 438.85 203.24 405.49 198.24 376.01 198.24 C 346.53 198.24 313.17 203.24 313.17 228.09 C 313.17 252.93 346.53 257.93 376.01 257.93 "/> <path fill="none" stroke-width="1" stroke="#000" d="M 0 0 C 10.53 0 22.45 -0.74 22.45 -4.4 C 22.45 -8.06 10.53 -8.8 0 -8.8 C -10.53 -8.8 -22.46 -8.06 -22.46 -4.4 C -22.46 -0.74 -10.53 0 0 0 Z M 0 -34.24 C 29.48 -34.24 62.84 -29.24 62.84 -4.4 C 62.84 20.45 29.48 25.45 0 25.45 C -29.48 25.45 -62.84 20.45 -62.84 -4.4 C -62.84 -29.24 -29.48 -34.24 0 -34.24 Z M 0 -34.24 " transform="matrix(1, 0, 0, -1, 376.01, 223.69)"/></svg><!--/logo-->
+    <span class="pill">전부 무료입니다……</span>
+    <div class="hand-stage">
+      <div class="lbox" aria-hidden="true">L</div>
+      <img src="assets/hand.webp" alt="L 상자를 받쳐 든 손" width="900" height="442">
+      <div class="burst" aria-hidden="true">
+        <svg viewBox="490 775 210 105"><path d="M677.74 828.5L651.96 835.36L651.79 845.74L628.02 848.53L619.04 860.8L600.14 859.17L583.42 871.84L571.69 866L549.25 877.55L546.09 868.2L520.64 877.23L526.44 865.5L501.04 870.93L515.1 858.23L492.82 859.39L513.44 847.26L496.97 844.02L521.66 833.91L512.99 826.67L538.77 819.81L538.94 809.43L562.71 806.64L571.7 794.38L590.58 796L607.31 783.33L619.04 789.17L641.48 777.62L644.63 786.97L670.09 777.94L664.29 789.67L689.68 784.24L675.63 796.95L697.91 795.78L677.29 807.91L693.76 811.15L669.07 821.26Z"/></svg>
+        <span>L만큼 좋아!</span>
+      </div>
+    </div>
+    <p class="lede">아무 웹페이지에서 누르면 노래가 나오면서, 화면 속 영문 <em>L</em>을 하나씩 찰칵 찍어 손바닥 위에 올려 드려요. 폰트, 크기, 색까지 그대로. 맥북 · 아이패드 · 안드로이드 다 돼요.</p>
+  </header>
+</div>
+
+<section id="install">
+  <div class="wrap">
+    <div class="head">
+      <h2>설치하기</h2>
+      <span class="pill">북마크 하나면 끝</span>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="mac" aria-selected="true">맥북</button>
+      <button class="tab" role="tab" data-tab="ipad" aria-selected="false">아이패드 · 아이폰</button>
+      <button class="tab" role="tab" data-tab="android" aria-selected="false">안드로이드</button>
+      <button class="tab" role="tab" data-tab="ext" aria-selected="false">크롬 확장</button>
+    </div>
+
+    <div class="pane on" data-pane="mac">
+      <ol>
+        <li><div>북마크 바를 켜세요. Chrome · Safari 모두 <kbd>⌘</kbd><kbd>⇧</kbd><kbd>B</kbd></div></li>
+        <li><div>이 버튼을 북마크 바로 <b>끌어다 놓기</b><br><a class="bm js-bm" href="#" title="북마크 바로 드래그하세요">L을 가져가</a></div></li>
+        <li><div>아무 웹사이트에서 북마크 클릭 → 패널의 <b>▶ 전부 가져가기</b></div></li>
+      </ol>
+      <p class="note">Safari에서 안 되면: 설정 → 고급 → “웹 개발자용 기능 보기” 켠 뒤, 개발자 메뉴 → “스마트 검색 필드에서 JavaScript 허용”을 켜세요.</p>
+    </div>
+
+    <div class="pane" data-pane="ipad">
+      <ol>
+        <li><div>Safari에서 지금 이 페이지를 북마크하세요. 공유 버튼 → <b>북마크 추가</b>, 이름은 <code>L을 가져가</code></div></li>
+        <li><div>아래 코드를 복사하세요.
+          <div class="code-box"><textarea class="js-code" readonly aria-label="북마클릿 코드"></textarea><button class="btn js-copy" type="button">코드 복사</button></div></div>
+        </li>
+        <li><div>책갈피 목록 → <b>편집</b> → 방금 만든 북마크 → <b>주소</b> 칸을 지우고 붙여넣기 → 완료</div></li>
+        <li><div>아무 사이트에서 책갈피 목록 → <b>L을 가져가</b> 탭 → 패널에서 <b>▶ 전부 가져가기</b></div></li>
+      </ol>
+      <p class="note">아이패드 가로 화면에선 오른쪽, 세로 화면과 아이폰에선 아래쪽에 패널이 떠요. ⇄ 버튼으로 반대편으로 옮길 수 있어요.</p>
+    </div>
+
+    <div class="pane" data-pane="android">
+      <ol>
+        <li><div>Chrome에서 이 페이지를 북마크하세요. ⋮ → ☆</div></li>
+        <li><div>아래 코드를 복사하세요.
+          <div class="code-box"><textarea class="js-code" readonly aria-label="북마클릿 코드"></textarea><button class="btn js-copy" type="button">코드 복사</button></div></div>
+        </li>
+        <li><div>⋮ → 북마크 → 방금 만든 북마크 길게 누르기 → <b>수정</b> → 이름을 <code>takeL</code>로, URL 칸에 붙여넣기</div></li>
+        <li><div>아무 사이트에서 <b>주소창에 <code>takeL</code> 입력</b> → 목록에 뜨는 ☆ 북마크 항목을 탭 (엔터 말고 항목을 눌러야 해요)</div></li>
+      </ol>
+      <p class="note">Samsung Internet도 같은 방식으로 북마크 URL만 바꾸면 돼요.</p>
+    </div>
+
+    <div class="pane" data-pane="ext">
+      <ol>
+        <li><div>확장 파일을 받아 압축을 푸세요.<br><a class="bm" href="take-the-l-extension.zip" download>확장 파일 받기 (.zip)</a></div></li>
+        <li><div>Chrome(또는 Edge, Arc, Whale)에서 <code>chrome://extensions</code> 열기 → 오른쪽 위 <b>개발자 모드</b> 켜기</div></li>
+        <li><div><b>압축해제된 확장 프로그램을 로드</b> → 압축을 푼 <code>take-the-l</code> 폴더 선택</div></li>
+        <li><div>툴바의 확장 아이콘을 누르면 실행. 단축키 <kbd>Alt</kbd><kbd>Shift</kbd><kbd>L</kbd></div></li>
+      </ol>
+      <p class="note">북마클릿이 막히는 사이트(GitHub처럼 보안이 엄격한 곳)에서도 확장은 동작해요.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <div class="head">
+      <h2>궁금한 것</h2>
+      <span class="pill">가져가기 전에 읽어 주세요</span>
+    </div>
+    <dl>
+      <div class="q"><dt>가져간 L은 어떻게 돌려받나요?</dt>
+      <dd>패널의 ↺ 를 누르면 제자리로 돌아오고, ✕ 로 닫아도 모두 돌아와요. 페이지 원본은 바뀌지 않아요.</dd></div>
+      <div class="q"><dt>모은 L을 저장할 수 있나요?</dt>
+      <dd>⬇ 버튼으로 이 포스터처럼 생긴 PNG 한 장으로 저장돼요. 아이패드 · 안드로이드에선 공유 시트가 떠서 사진 앱에 바로 넣을 수 있어요.</dd></div>
+      <div class="q"><dt>안 잡히는 L도 있나요?</dt>
+      <dd>이미지 속 글자, &lt;canvas&gt;로 그린 글자, 입력창 안의 글자, 다른 사이트를 띄운 iframe 안의 글자는 건드리지 않아요.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span class="pill">전부 무료입니다……</span>
+  <div>모든 처리는 브라우저 안에서만 일어나고 어디에도 전송되지 않아요.</div>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>window.__TTL_NO_AUTORUN = true;</script>
+<script src="takethel.js"></script>
+<script>
+(function () {
+  function bookmarklet() {
+    // 들여쓰기·주석을 걷어내 모바일 북마크 칸에 넣기 좋게 줄인다
+    var src = TAKE_THE_L.toString().split('\n')
+      .map(function (l) { return l.trim().replace(/([;{},)])\s+\/\/ .*$/, '$1'); })
+      .filter(function (l) { return l && l.indexOf('//') !== 0; })
+      .join('\n');
+    var code = '(' + src + ')()';
+    return 'javascript:' + encodeURIComponent(code).replace(/%20/g, ' ').replace(/%2C/g, ',').replace(/%3A/g, ':')
+      .replace(/%3B/g, ';').replace(/%3D/g, '=').replace(/%2B/g, '+').replace(/%40/g, '@').replace(/%24/g, '$')
+      .replace(/%2F/g, '/') + ';void 0';
+  }
+
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('on');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { t.classList.remove('on'); }, 1800);
+  }
+
+  function copy(text, ta) {
+    function fallback() {
+      ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+      try { document.execCommand('copy'); toast('복사했어요!'); } catch (e) { toast('길게 눌러 전체 선택 → 복사하세요'); }
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { toast('복사했어요!'); }, fallback);
+    } else fallback();
+  }
+
+  var href = bookmarklet();
+  document.querySelectorAll('.js-bm').forEach(function (a) {
+    a.href = href;
+    a.onclick = function (e) { e.preventDefault(); toast('클릭 말고 북마크 바로 끌어다 놓으세요'); };
+  });
+  document.querySelectorAll('.js-code').forEach(function (t) { t.value = href; });
+  document.querySelectorAll('.js-copy').forEach(function (b) {
+    b.onclick = function () { var ta = b.parentNode.querySelector('textarea'); copy(ta.value, ta); };
+  });
+
+  document.querySelectorAll('.tab').forEach(function (t) {
+    t.onclick = function () {
+      document.querySelectorAll('.tab').forEach(function (x) { x.setAttribute('aria-selected', x === t); });
+      document.querySelectorAll('.pane').forEach(function (p) { p.classList.toggle('on', p.dataset.pane === t.dataset.tab); });
+    };
+  });
+  var ua = navigator.userAgent;
+  var guess = /Android/i.test(ua) ? 'android'
+    : (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) ? 'ipad' : 'mac';
+  document.querySelector('.tab[data-tab="' + guess + '"]').click();
+})();
+</script>
+</body>
+</html>

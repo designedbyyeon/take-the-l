@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "L을 가져가",
+  "short_name": "Take the L",
+  "version": "1.2.0",
+  "description": "화면의 모든 영문 L을 폰트·크기·색 그대로 수집합니다.",
+  "action": {
+    "default_title": "L을 가져가",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "32": "assets/icon-32.png",
+      "48": "assets/icon-48.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+L"
+      }
+    }
+  },
+  "icons": {
+    "16": "assets/icon-16.png",
+    "32": "assets/icon-32.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  }
+}
